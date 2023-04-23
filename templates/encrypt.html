@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <title>{{title}}</title>
-</head>
-<body>
+{% extends "base.html" %}
 {% block content %}
-<h1>Зашифруйте и раcшифруйте</h1>
+<h1>Зашифруйте</h1>
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
     <p>
@@ -19,13 +12,12 @@
     </div>
     {% endfor %}
     </p>
-    <div class="buttons">
-        <div>{{ form.caesar(type="submit", class="btn btn-primary") }}</div>
-        <div>{{ form.submit2(type="submit", class="btn btn-primary") }}</div>
-        <div>{{ form.submit3(type="submit", class="btn btn-primary") }}</div>
-        <div>{{ form.submit4(type="submit", class="btn btn-primary") }}</div>
-    </div>
+    <p>
+        {{ form.ciphers_list.label }}
+        {{ form.ciphers_list }}
+    </p>
+    <p>
+        {{ form.cipher_btn(type="submit", class="btn btn-primary") }}
+    </p>
 </form>
 {% endblock %}
-</body>
-</html>
