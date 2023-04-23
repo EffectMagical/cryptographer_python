@@ -5,7 +5,7 @@ key1 = 'qwertyuiopasdfghjklzxcvbnm'
 key2 = 'ёйцукенгшщзхъфывапролджэячсмитьбю'
 
 
-def caesar_cipher(text, shift):  # Цезарь
+def caesar_cipher(text, shift):
     encrypted_text = ""
     for char in text:
         if char.lower() in key1 or char.lower() in key2:
@@ -51,7 +51,7 @@ def caesar_decipher(text, shift):
     return decrypted_text
 
 
-def encrypt(text):  # Шифр - 1
+def encrypt(text):
     global key1, key2
     cipher_dict = {}
     cipher_dict2 = {}
@@ -117,24 +117,31 @@ def split_len(text, length):
     return [text[i:i + length] for i in range(0, len(text), length)]
 
 
-def encode(key, text):  # Шифр2 - 2
-    number = 0
+def encode(key, text):
     cells = {int(i): r for r, i in enumerate(range(key))}
     encrypted = ''
     for index in sorted(cells.keys()):
         for part in split_len(text, key):
             try:
-                number += 1
                 encrypted += part[cells[index]]
             except IndexError:
                 continue
-    with open('number.txt', 'w', encoding='utf=8', ) as f:  # number.txt - ?
-        f.write(str(int(number / key)))
-    number /= key
     return encrypted
 
 
-def transcription1(text):  # Транскрипция1
+def deencode(key, text):
+    number = 0
+    cells = {int(i): r for r, i in enumerate(range(key))}
+    for _ in sorted(cells.keys()):
+        for _ in split_len(text, key):
+            try:
+                number += 1
+            except IndexError:
+                continue
+    return encode(int(number / key), text)
+
+
+def transcription1(text):
     q = []
     with open('tyu2.json', encoding='utf-8') as f:
         d = json.load(f)[1]
@@ -152,7 +159,7 @@ def transcription1(text):  # Транскрипция1
     return ' '.join(q)[0:-1]
 
 
-def transcription2(text):  # Транскрипция2
+def transcription2(text):
     q = []
     with open('tyu2.json', encoding='utf-8') as f:
         d = json.load(f)[0]
@@ -224,7 +231,7 @@ def detranscription2(text):
         return ' '.join(q)
 
 
-def geoshifr(text, city):  # Геошифр
+def geoshifr(text, city):
     q = []
     e = []
     d = {}
