@@ -6,6 +6,7 @@ key2 = 'ёйцукенгшщзхъфывапролджэячсмитьбю'
 
 
 def caesar_cipher(text, shift):
+    shift = int(shift)
     encrypted_text = ""
     for char in text:
         if char.lower() in key1 or char.lower() in key2:
@@ -29,6 +30,7 @@ def caesar_cipher(text, shift):
 
 
 def caesar_decipher(text, shift):
+    shift = int(shift)
     decrypted_text = ""
     for char in text:
         if char.lower() in key1 or char.lower() in key2:
@@ -118,6 +120,7 @@ def split_len(text, length):
 
 
 def encode(key, text):
+    key = int(str(key))
     cells = {int(i): r for r, i in enumerate(range(key))}
     encrypted = ''
     for index in sorted(cells.keys()):
@@ -130,6 +133,7 @@ def encode(key, text):
 
 
 def deencode(key, text):
+    key = int(key)
     number = 0
     cells = {int(i): r for r, i in enumerate(range(key))}
     for _ in sorted(cells.keys()):
@@ -156,7 +160,10 @@ def transcription1(text):
                 else:
                     r += d[j.upper()].lower() + '-'
         q.append(r)
-    return ' '.join(q)[0:-1]
+    if q[-1] == '-':
+        return ' '.join(q)[0:-1]
+    else:
+        return ' '.join(q)
 
 
 def transcription2(text):
@@ -201,7 +208,10 @@ def detranscription1(text):
                             r += list(d.keys())[p].lower()
                             break
         q.append(r)
-    return ' '.join(q)
+    if q[-1] == '-':
+        return ' '.join(q)[0:-1]
+    else:
+        return ' '.join(q)
 
 
 def detranscription2(text):
@@ -260,7 +270,9 @@ def geoshifr(text, city):
 
 def degeoshifr(text, city):
     w = []
-    d = dict(map(lambda x: (int(str(x).split('-')[0]), str(x).split('-')[1]), str(text.split(' |/_ ')[1]).split('#&')))
+    d = {}
+    if len(str((text.split(' |/_ ')[1]))) > 1:
+        d = dict(map(lambda x: (int(str(x).split('-')[0]), str(x).split('-')[1]), str(text.split(' |/_ ')[1]).split('#&')))
     encrypted_text = ''
     geocoder_request = f"http://geocode-maps.yandex.ru" \
                        f"/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={city}&format=json"
