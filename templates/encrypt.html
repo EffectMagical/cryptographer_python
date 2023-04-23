@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Зашифруйте</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.text_input.label }}<br>
+        {{ form.text_input(class="form-control") }}<br>
+        {% for error in form.text_input.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.ciphers_list.label }}
+        {{ form.ciphers_list }}
+    </p>
+    <p>
+        {{ form.cipher_btn(type="submit", class="btn btn-primary") }}
+    </p>
+</form>
+{% endblock %}
