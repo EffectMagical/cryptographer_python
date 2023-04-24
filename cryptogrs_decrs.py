@@ -5,7 +5,8 @@ key1 = 'qwertyuiopasdfghjklzxcvbnm'
 key2 = 'ёйцукенгшщзхъфывапролджэячсмитьбю'
 
 
-def caesar_cipher(text, shift):  # Цезарь
+def caesar_cipher(text, shift):
+    shift = int(shift)
     encrypted_text = ""
     for char in text:
         if char.lower() in key1 or char.lower() in key2:
@@ -29,6 +30,7 @@ def caesar_cipher(text, shift):  # Цезарь
 
 
 def caesar_decipher(text, shift):
+    shift = int(shift)
     decrypted_text = ""
     for char in text:
         if char.lower() in key1 or char.lower() in key2:
@@ -51,7 +53,7 @@ def caesar_decipher(text, shift):
     return decrypted_text
 
 
-def encrypt(text):  # Шифр - 1
+def encrypt(text):
     global key1, key2
     cipher_dict = {}
     cipher_dict2 = {}
@@ -117,24 +119,33 @@ def split_len(text, length):
     return [text[i:i + length] for i in range(0, len(text), length)]
 
 
-def encode(key, text):  # Шифр2 - 2
-    number = 0
+def encode(key, text):
+    key = int(str(key))
     cells = {int(i): r for r, i in enumerate(range(key))}
     encrypted = ''
     for index in sorted(cells.keys()):
         for part in split_len(text, key):
             try:
-                number += 1
                 encrypted += part[cells[index]]
             except IndexError:
                 continue
-    with open('number.txt', 'w', encoding='utf=8', ) as f:  # number.txt - ?
-        f.write(str(int(number / key)))
-    number /= key
     return encrypted
 
 
-def transcription1(text):  # Транскрипция1
+def deencode(key, text):
+    key = int(key)
+    number = 0
+    cells = {int(i): r for r, i in enumerate(range(key))}
+    for _ in sorted(cells.keys()):
+        for _ in split_len(text, key):
+            try:
+                number += 1
+            except IndexError:
+                continue
+    return encode(int(number / key), text)
+
+
+def transcription1(text):
     q = []
     with open('tyu2.json', encoding='utf-8') as f:
         d = json.load(f)[1]
@@ -149,10 +160,13 @@ def transcription1(text):  # Транскрипция1
                 else:
                     r += d[j.upper()].lower() + '-'
         q.append(r)
-    return ' '.join(q)[0:-1]
+    if q[-1] == '-':
+        return ' '.join(q)[0:-1]
+    else:
+        return ' '.join(q)
 
 
-def transcription2(text):  # Транскрипция2
+def transcription2(text):
     q = []
     with open('tyu2.json', encoding='utf-8') as f:
         d = json.load(f)[0]
@@ -194,7 +208,10 @@ def detranscription1(text):
                             r += list(d.keys())[p].lower()
                             break
         q.append(r)
-    return ' '.join(q)
+    if q[-1] == '-':
+        return ' '.join(q)[0:-1]
+    else:
+        return ' '.join(q)
 
 
 def detranscription2(text):
@@ -224,7 +241,7 @@ def detranscription2(text):
         return ' '.join(q)
 
 
-def geoshifr(text, city):  # Геошифр
+def geoshifr(text, city):
     q = []
     e = []
     d = {}
@@ -253,7 +270,9 @@ def geoshifr(text, city):  # Геошифр
 
 def degeoshifr(text, city):
     w = []
-    d = dict(map(lambda x: (int(str(x).split('-')[0]), str(x).split('-')[1]), str(text.split(' |/_ ')[1]).split('#&')))
+    d = {}
+    if len(str((text.split(' |/_ ')[1]))) > 1:
+        d = dict(map(lambda x: (int(str(x).split('-')[0]), str(x).split('-')[1]), str(text.split(' |/_ ')[1]).split('#&')))
     encrypted_text = ''
     geocoder_request = f"http://geocode-maps.yandex.ru" \
                        f"/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode={city}&format=json"
