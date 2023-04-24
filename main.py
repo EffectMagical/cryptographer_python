@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request
 from data import db_session
 from data.text import Text
-from flask_wtf import FlaskForm
-from wtforms import TextAreaField, SubmitField, validators, SelectField
+from dec_enc_form import *
 
 from cryptogrs_decrs import *
 
@@ -27,35 +26,6 @@ def last_entry():
     db_sess.query(Text).filter(Text.text == user[-1].text).delete()
     db_sess.commit()
     return last
-
-
-class EncryptionForm(FlaskForm):
-    ciphers_list = SelectField('Шифры', choices=[(0, 'Цезарь'), (1, 'Замена'), (2, 'Перестановка'),
-                                                 (3, 'Транскрипция-кирилици'), (4, 'Транскрипция-латиници'),
-                                                 (5, 'Геошифр')])
-    keys_encryption = TextAreaField("Введите переменную", [validators.InputRequired(),
-                                                           validators.Length(max=100)])
-    text_input = TextAreaField("Введите текст (макс символов: 1000)", [validators.InputRequired(),
-                                                                       validators.Length(max=1000,
-                                                                                         message=
-                                                                                         'Макс. символов: 1000')],
-                               render_kw={'rows': 15, 'cols': 60})
-    cipher_btn = SubmitField('Зашифровать')
-
-
-class DecryptionForm(FlaskForm):
-    ciphers_list2 = SelectField('Шифры', choices=[(0, 'Цезарь'), (1, 'Замена'), (2, 'Перестановка'),
-                                                  (3, 'Транскрипция-кирилици'), (4, 'Транскрипция-латиници'),
-                                                  (5, 'Геошифр')],
-                                default=0)
-    keys_encryption2 = TextAreaField("Введите переменную", [validators.InputRequired(),
-                                                            validators.Length(max=100)])
-    text_input2 = TextAreaField("Введите текст (макс символов: 1000)", [validators.InputRequired(),
-                                                                        validators.Length(max=1000,
-                                                                                          message=
-                                                                                          'Макс. символов: 1000')],
-                                render_kw={'rows': 15, 'cols': 60})
-    decipher_btn = SubmitField('Расшифровать')
 
 
 @app.route('/', methods=['GET', 'POST'])
