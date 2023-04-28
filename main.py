@@ -17,7 +17,6 @@ def main(text_, encrypt_decrypt):
     db_sess = db_session.create_session()
     db_sess.add(TEXT)
     db_sess.commit()
-    app.run()
 
 
 @app.route('/', methods=['GET', 'POST'])
