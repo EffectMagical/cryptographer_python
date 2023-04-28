@@ -45,6 +45,12 @@ def encryption():
     return render_template('encrypt.html', title='Шифрование', form=en_form)
 
 
+@app.route('/history', methods=['GET', 'POST'])
+def history():
+    pol = ['2', 'ghbdtn']  # - просто пример, можно удалить
+    return render_template('history.html', title='История', pol=pol)
+
+
 @app.route('/decryption', methods=['GET', 'POST'])
 def decryption():
     de_form = DecryptionForm()
