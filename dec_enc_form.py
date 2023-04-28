@@ -25,3 +25,7 @@ class DecryptionForm(FlaskForm):
                                                                                           message='Макс. символов: 1000')],
                                 render_kw={'rows': 15, 'cols': 60})
     decipher_btn = SubmitField('Расшифровать')
+
+
+class HistoryForm(FlaskForm):
+    clear_btn = SubmitField('Очистить историю')
