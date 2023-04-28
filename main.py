@@ -47,12 +47,20 @@ def encryption():
 
 @app.route('/history', methods=['GET', 'POST'])
 def history():
-    db_session.global_init("db/blog.db")
-    db_sess = db_session.create_session()
-    pol = []
-    for user in db_sess.query(Text).all():
-        pol.append((user.text, user.encrypt_decrypt))
-    return render_template('history.html', title='История', pol=pol)
+    hist_form = HistoryForm()
+    if hist_form.validate_on_submit():  # тут нужно очистить бд
+        db_session.global_init("db/blog.db")
+        db_sess = db_session.create_session()
+        db_sess.query(Text).delete()
+        db_sess.commit()
+        pol = []
+    else:
+        db_session.global_init("db/blog.db")
+        db_sess = db_session.create_session()
+        pol = []
+        for user in db_sess.query(Text).all():
+            pol.append((user.text, user.encrypt_decrypt))
+    return render_template('history.html', title='История', pol=pol, form=hist_form)
 
 
 @app.route('/decryption', methods=['GET', 'POST'])
