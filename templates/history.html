@@ -2,12 +2,18 @@
 {% block content %}
 <h1>{{title}}</h1>
 <form action="" method="post" novalidate>
-    {% for i, r in pol %}
-        {% if r == 'шифрование' %}
-            <h5 style="color: #1f75fe">{{i+' '*10+'---'+' '*10+r}}</h5>
-        {% else %}
-            <h5 style="color: #009900">{{i+' '*10+'---'+' '*10+r}}</h5>
-        {% endif %}
-    {% endfor %}
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.clear_btn(type="submit", class="btn btn-primary") }}
+    </p>
+    {% if pol %}
+        {% for i, r in pol %}
+            {% if r == 'шифрование' %}
+                <h5 style="color: #1f75fe">{{i+' '*10+'---'+' '*10+r}}</h5>
+            {% else %}
+                <h5 style="color: #009900">{{i+' '*10+'---'+' '*10+r}}</h5>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 </form>
 {% endblock %}
