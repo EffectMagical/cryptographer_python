@@ -9,3 +9,4 @@ class Text(SqlAlchemyBase):
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
     text = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    encrypt_decrypt = sqlalchemy.Column(sqlalchemy.String, nullable=True)
