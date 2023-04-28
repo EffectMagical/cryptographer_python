@@ -13,10 +13,10 @@
 <header>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href={{url_for('encryption')}}>Шифрование</a>
+        <a class="navbar-brand" href={{url_for('history')}}>История запросов</a>
         <a class="navbar-brand" href={{url_for('decryption')}}>Расшифрование</a>
     </nav>
 </header>
-<!-- Begin page content -->
 <main role="main" class="container">
     {% block content %}{% endblock %}
 </main>
