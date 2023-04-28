@@ -25,29 +25,33 @@ def encryption():
     if en_form.validate_on_submit():
         if request.method == 'POST':
             if en_form.ciphers_list.data == '1':
-                main(en_form.text_input.data, 'encryption')
+                main(en_form.text_input.data, 'шифрование')
                 en_form.text_input.data = encrypt(en_form.text_input.data)
             elif en_form.ciphers_list.data == '2':
-                main(en_form.text_input.data, 'encryption')
+                main(en_form.text_input.data, 'шифрование')
                 en_form.text_input.data = encode(en_form.keys_encryption.data, en_form.text_input.data)
             elif en_form.ciphers_list.data == '3':
-                main(en_form.text_input.data, 'encryption')
+                main(en_form.text_input.data, 'шифрование')
                 en_form.text_input.data = transcription1(en_form.text_input.data)
             elif en_form.ciphers_list.data == '4':
-                main(en_form.text_input.data, 'encryption')
+                main(en_form.text_input.data, 'шифрование')
                 en_form.text_input.data = transcription2(en_form.text_input.data)
             elif en_form.ciphers_list.data == '5':
-                main(en_form.text_input.data, 'encryption')
+                main(en_form.text_input.data, 'шифрование')
                 en_form.text_input.data = geoshifr(en_form.text_input.data, en_form.keys_encryption.data)
             else:  # Цезарь
-                main(en_form.text_input.data, 'encryption')
+                main(en_form.text_input.data, 'шифрование')
                 en_form.text_input.data = caesar_cipher(en_form.text_input.data, en_form.keys_encryption.data)
     return render_template('encrypt.html', title='Шифрование', form=en_form)
 
 
 @app.route('/history', methods=['GET', 'POST'])
 def history():
-    pol = ['2', 'ghbdtn']  # - просто пример, можно удалить
+    db_session.global_init("db/blog.db")
+    db_sess = db_session.create_session()
+    pol = []
+    for user in db_sess.query(Text).all():
+        pol.append((user.text, user.encrypt_decrypt))
     return render_template('history.html', title='История', pol=pol)
 
 
@@ -57,22 +61,22 @@ def decryption():
     if de_form.validate_on_submit():
         if request.method == 'POST':
             if de_form.ciphers_list2.data == '1':
-                main(de_form.text_input2.data, 'decryption')
+                main(de_form.text_input2.data, 'расшифрование')
                 de_form.text_input2.data = decrypt(de_form.text_input2.data)
             elif de_form.ciphers_list2.data == '2':
-                main(de_form.text_input2.data, 'decryption')
+                main(de_form.text_input2.data, 'расшифрование')
                 de_form.text_input2.data = deencode(de_form.keys_encryption2.data, de_form.text_input2.data)
             elif de_form.ciphers_list2.data == '3':
-                main(de_form.text_input2.data, 'decryption')
+                main(de_form.text_input2.data, 'расшифрование')
                 de_form.text_input2.data = detranscription1(de_form.text_input2.data)
             elif de_form.ciphers_list2.data == '4':
-                main(de_form.text_input2.data, 'decryption')
+                main(de_form.text_input2.data, 'расшифрование')
                 de_form.text_input2.data = detranscription2(de_form.text_input2.data)
             elif de_form.ciphers_list2.data == '5':
-                main(de_form.text_input2.data, 'decryption')
+                main(de_form.text_input2.data, 'расшифрование')
                 de_form.text_input2.data = degeoshifr(de_form.text_input2.data, de_form.keys_encryption2.data)
             else:
-                main(de_form.text_input2.data, 'decryption')
+                main(de_form.text_input2.data, 'расшифрование')
                 de_form.text_input2.data = caesar_decipher(de_form.text_input2.data, de_form.keys_encryption2.data)
     return render_template('decrypt.html', title='Расшифрование', form=de_form)
 
