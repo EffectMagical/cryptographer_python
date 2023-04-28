@@ -2,8 +2,12 @@
 {% block content %}
 <h1>{{title}}</h1>
 <form action="" method="post" novalidate>
-    {% for i in pol %}
-        <p>{{i}}</p>
+    {% for i, r in pol %}
+        {% if r == 'шифрование' %}
+            <h5 style="color: #1f75fe">{{i+' '*10+'---'+' '*10+r}}</h5>
+        {% else %}
+            <h5 style="color: #009900">{{i+' '*10+'---'+' '*10+r}}</h5>
+        {% endif %}
     {% endfor %}
 </form>
 {% endblock %}
